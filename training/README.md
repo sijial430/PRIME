@@ -8,8 +8,8 @@ Please refer to the [veRL documentation](https://verl.readthedocs.io/en/latest/s
 ## Start Training
 We provide an example bash script to launch the training task. The prompt data can be downloaded [here](https://huggingface.co/datasets/PRIME-RL/Eurus-2-RL-Data). Please remember to modify the paths in the script. 
 
-It is needed to change the directories in `examples/run_prime_main.sh`
-
+It is needed to change the directories in `examples/run_prime_main.sh`. Note：For 7B models, you will need 8 GPUs as 4 GPUs won't work.
+ 
 ```bash
 PROJECT_NAME='PRIME'
 EXPERIMENT_NAME='online-after-solvable-0.2-0.8-policy-self-ref'
@@ -21,6 +21,11 @@ Then you can run
 ```bash
 bash examples/run_prime_main.sh
 ```
+You should be able to monitor the job run using:
+```bash
+bash ssh -N -L 8265:localhost:8265 user@remote_host
+```
+Your job should show up on your local browser: ``http://localhost:8265/``.
 
 ## Config Explanation
 We made several vital extensions to the original training pipeline of the PPO algorithm. Here we provide explanation to configure these new features. 
@@ -53,7 +58,7 @@ We adopt [implicit PRM](https://arxiv.org/abs/2412.01981) which obtains dense re
 
 The reference model in implicit PRM can be set as either the initial SFT model or the up-to-date policy model. Both strategies yield similar performance. 
 
-In this work, we update the implicit PRM with cross entropy(CE) loss due to memory efficiency.
+In this work, we update the implicit PRM with cross entropy(CE) loss due to memory efficiency. 
 ```yaml
 reward_model:
   rm_coef: 5

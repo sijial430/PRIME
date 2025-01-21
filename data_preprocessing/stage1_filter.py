@@ -56,14 +56,14 @@ def process_fn(d, idx):
 import json
 from tqdm import tqdm
 from IPython import embed
-from datasets import load_from_disk
+from datasets import load_dataset
 
-date = "20241212"
-data_path = "path/to/NuminaMath-CoT" # TODO
+date = "20250120"
+data_path = "AI-MO/NuminaMath-CoT" # TODO
 subsets = ["synthetic_math"]
 for subset in subsets: rm_stat[subset] = {}
 
-dataset = load_from_disk(data_path)['train']
+dataset = load_dataset(data_path)['train']
 print(dataset[0])
 # dataset = dataset.shuffle(seed=42)
 # dataset = dataset.select(range(100))

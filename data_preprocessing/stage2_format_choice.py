@@ -7,6 +7,10 @@ from vllm import LLM, SamplingParams
 from transformers import AutoTokenizer
 from tqdm import tqdm
 
+import torch.cuda.memory
+torch.cuda.memory._set_allocator_settings('expandable_segments:False')
+
+
 def create_question_prompt(item):
     system_prompt = """You are a precise mathematical question reformatter that converts multiple choice questions into standard format and ONLY outputs the rephrased question.
 
@@ -204,12 +208,12 @@ def filter_questions(data, llm, tokenizer, sampling_params):
 
 
 def main():
-    # TODO: CUDA_VISIBLE_DEVICES=4,5,6,7 python stage2_format_choice.py
-    date = "20241212" # TODO
+    # TODO: CUDA_VISIBLE_DEVICES=0,1,2,3 python stage2_format_choice.py
+    date = "20250120" # TODO
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_file", type=str, default=f"{date}/stage1_filtered.jsonl")
     parser.add_argument("--output_dir", type=str, default=f"{date}/formatted")
-    parser.add_argument("--model_name_or_path", type=str, default="path/to/Meta-Llama-3.1-8B-Instruct")
+    parser.add_argument("--model_name_or_path", type=str, default="meta-llama/Meta-Llama-3.1-8B-Instruct")
     parser.add_argument("--temperature", type=float, default=0.8)
     parser.add_argument("--max_tokens", type=int, default=2048)
     parser.add_argument("--tensor_parallel_size", type=int, default=torch.cuda.device_count())

@@ -24,6 +24,9 @@ import torch
 from verl.utils.reward_score import gsm8k, math
 from verl.trainer.ppo.ray_trainer import RayPRIMETrainer
 
+import torch.cuda.memory
+torch.cuda.memory._set_allocator_settings('expandable_segments:False')
+
 
 def _select_rm_score_fn(data_source):
     if data_source == 'openai/gsm8k':
@@ -135,6 +138,8 @@ def main(config):
 def main_task(config):
     from verl.utils.fs import copy_local_path_from_hdfs
     from transformers import AutoTokenizer
+    import wandb
+    wandb.init(project=config.trainer.project_name)
 
     # print initial config
     from pprint import pprint

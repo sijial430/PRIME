@@ -322,7 +322,7 @@ def sample():
 
 def main():
     # TODO: CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python stage4_judge.py
-    date = "20241128" # TODO
+    date = "20250120" # TODO
     parser = argparse.ArgumentParser()
     # deepseek-math-7b-instruct
     # Qwen2.5-Math-72B-Instruct
@@ -330,9 +330,9 @@ def main():
     # gemini-2.0-flash-thinking-exp
     MAX_NUM = 10000 # TODO
     parser.add_argument("--turn", type=int, default=2) # TODO
-    parser.add_argument("--data_subset", type=str, default="olympiads") # TODO
+    parser.add_argument("--data_subset", type=str, default="synthetic_math") # TODO
     parser.add_argument("--use_fp8", type=bool, default=False) # TODO
-    parser.add_argument("--model_path", type=str, default="gemini-2.0-flash-thinking-exp") # TODO
+    parser.add_argument("--model_path", type=str, default="deepseek-ai/deepseek-math-7b-instruct") # TODO
     parser.add_argument("--input_file", type=str, default=f"{date}/stage3_final_math_qa.jsonl")
     parser.add_argument("--output_path", type=str, default=f"{date}/stage4_judged")
     parser.add_argument("--tensor_parallel_size", type=int, default=torch.cuda.device_count())
